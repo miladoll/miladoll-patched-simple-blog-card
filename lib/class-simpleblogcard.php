@@ -221,7 +221,64 @@ class SimpleBlogCard {
 				$html = $this->get_contents_curl( $settings['url'] );
 				list( $title, $description, $img, $img_url, $img_width, $img_height ) = $this->re_generate( $settings, $html );
 			}
-			$contents .= '<div style="border: 1px solid #ddd; word-wrap:break-word; max-width: 100%; border-radius: 5px; margin: 30px;">';
+			$esc_html = function( $var ) {
+				return esc_html( $var );
+			};
+			$contents .= <<<'_EOF_preface'
+<style>
+.simple_blog_card
+{
+	width: 100%;
+	max-width: 550px;
+	min-width: 480px;
+	margin-left: auto;
+	margin-right: auto;
+	font-family: sans-serif;
+	background-color: white;
+}
+.simple_blog_card
+	.simple_blog_card_description_title
+{
+	font-size: .8em;
+    line-height: 1.3;
+	margin-bottom: .2em;
+	color: #2b66de;
+}
+.simple_blog_card
+	.simple_blog_card_description_title:before
+{
+	content: '▶';
+	margin-right: .2em;
+}
+.simple_blog_card
+	.simple_blog_card_description_excerpt
+{
+	font-size: .6em;
+    line-height: 1.2;
+}
+.simple_blog_card
+	address
+{
+	text-align: right;
+	font-size: 60%;
+	font-family: sans-serif;
+	font-style: normal;
+	border-top: 1px solid #ddd;
+	margin-top: .4em;
+	padding-top: 0.2em;
+	color: #777;
+	height: 1.6em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+	white-space: nowrap;
+	padding-left: 1em;
+}
+</style>
+				<div
+					class="simple_blog_card"
+					style="border: 1px solid #ddd; word-wrap:break-word; border-radius: 5px;"
+				>
+_EOF_preface;
 			if ( $settings['target_blank'] ) {
 				$contents .= '<a style="text-decoration: none;" href="' . $url . '" target="_blank" rel="noopener">';
 			} else {
@@ -232,13 +289,18 @@ class SimpleBlogCard {
 				$contents .= '<img style="border-radius: 5px;" src="' . $img_url . '" alt="' . $title . '" width="' . $img_width . ' " height="' . $img_height . '" />';
 				$contents .= '</div>';
 			}
-			$contents .= '<div style="line-height: 120%; padding: 10px;">';
-			$contents .= '<div style="padding: 0.25em 0.25em; color: #494949; background: transparent; border-left: solid 5px ' . $settings['color'] . '; ">';
-			$contents .= '<div style="font-weight: bold; display: block;">' . $title . '</div>';
+			$contents .= '<div style="line-height: 120%; padding: 10px; overflow: hidden;">';
+			$contents .= '<div class="simple_blog_card_wrapper_description" style="padding: 0.25em 0.25em; color: #494949; background: transparent;' . $settings['color'] . '; ">';
+			$contents .= '<div class="simple_blog_card_description_title" style="font-weight: bold; display: block;">' . $title . '</div>';
 			if ( $settings['dessize'] > 0 ) {
-				$contents .= '<div style="color: #333; ">' . $description . '</div>';
+				$contents .= '<div class="simple_blog_card_description_excerpt">' . $description . '</div>';
 			}
 			$contents .= '</div>';
+			$contents .= <<<"_EOF_address"
+				<address>
+					{$esc_html($url)}
+				</address>
+			_EOF_address;
 			$contents .= '</div>';
 			$contents .= '<div style="clear: both;"></div>';
 			$contents .= '</a>';
