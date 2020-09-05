@@ -230,7 +230,6 @@ class SimpleBlogCard {
 {
 	width: 100%;
 	max-width: 550px;
-	min-width: 480px;
 	margin-left: auto;
 	margin-right: auto;
 	font-family: sans-serif;
