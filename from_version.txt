@@ -1,0 +1,1 @@
+simple-blog-card.1.12
