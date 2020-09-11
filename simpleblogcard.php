@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: Simple Blog Card
+ * Plugin Name: miladoll-patched-simple-blog-card
  * Plugin URI:  https://wordpress.org/plugins/simple-blog-card/
  * Description: Get OGP and display blog card.
  * Version:     1.12
